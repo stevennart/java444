@@ -13,8 +13,7 @@ public class Student {
 
 	public Student(String firstName, String lastName, double grade, String department) {
 
-		if (firstName.isEmpty() || firstName == null || lastName.isEmpty() || lastName == null || department.isEmpty()
-				|| department == null) {
+		if (firstName.isEmpty() || firstName == null || lastName.isEmpty() || lastName == null || department.isEmpty() || department == null) { 
 			throw new RuntimeException("strings are empty");
 		} else if (grade < 0 || grade > 100) {
 			throw new IllegalArgumentException("No negative numbers or higher than 100");
@@ -123,10 +122,11 @@ public class Student {
 
 	@Override
 	public String toString() {
-		// @SuppressWarnings("resource")
-		// Formatter fmt = new Formatter();
-		// df.format("%.2f", getGrade());
-		return getName() + " " + df.format(getGrade()) + " " + getDepartment();
+		
+		return String.format("%-9s", firstName) +
+		String.format("%-12s", lastName) +
+		String.format("%-7s", (df.format(getGrade()))) +
+		String.format("%-10s", department);
 
 	}
 

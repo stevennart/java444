@@ -16,11 +16,9 @@ import java.util.stream.Collectors;
 import java.util.Optional;
 
 public class StudentProcess {
-
 	
 	public static void main(String[] args) {
 	
-
 		Student[] students = { 
 				new Student("Jack", "Smith", 50.0, "IT"),
 				new Student("Aaron", "Johnson", 76.0, "IT"),
@@ -31,43 +29,49 @@ public class StudentProcess {
 				new Student("Wesley", "Jones", 42.89, "Media")
 				};
 		
-		
+		// converts normal array to a List of STUDENT type. 
 		List<Student> studentList = Arrays.asList(students);
 		 
+		Predicate<Student> gradeCheck = (s) -> s.getGrade() >= 50 && s.getGrade() <= 100;
+		
 		// TASK 1
 		System.out.println("Task 1:\n");
 		System.out.println("Complete Student list:");
+		
 		studentList.forEach(System.out::println);
 		
 		// TASK 2
 		System.out.println("\nTask 2:\n");
 		System.out.println("Students who got 50.0-100.0 sorted by grade:");
-		studentList.stream().filter(student -> student.getGrade() > 49 && student.getGrade() < 101)//filter takes a Predicate (condition)
-		.sorted(Comparator.comparing(Student::getGrade)).forEach(System.out::println);//sorted takes a comparator
+		
+		studentList.stream().filter(gradeCheck) 
+		// by default the comparator is comparing it in ascending order, to do it in descending you would add the .reversed() method. 
+		// comparator.comparing returns a sort key for .sorted()
+		.sorted(Comparator.comparing(Student::getGrade)).forEach(System.out::println);
 		
 		// TASK 3
 		System.out.println("\nTask 3:\n");
 		System.out.println("First Student who got 50.0-100.0:");
-		System.out.println(studentList.stream().filter(student -> student.getGrade() > 49 && student.getGrade() < 101)//filter takes Predicate
-				.findFirst().get());//findFirst returns Optional class
+		
+		System.out.println(studentList.stream().filter(gradeCheck).findFirst().get());
 		
 		// TASK 4
 		System.out.println("\nTask 4:\n");
+		
 		System.out.println("Students in ascending order by last name then first:");
-		studentList.stream().sorted(Comparator.comparing(Student::getLastName).thenComparing(Student::getFirstName))//sorted take Comparator
-		.forEach(System.out::println);
+		studentList.stream().sorted(Comparator.comparing(Student::getLastName).thenComparing(Student::getFirstName)).forEach(System.out::println);
 		
 		System.out.println("\nStudents in descending order by last name then first:");
-		studentList.stream()
-		.sorted(Comparator.comparing(Student::getLastName).thenComparing(Student::getFirstName).reversed())//takes comparator
-		.forEach(System.out::println);
-		
+		// .reversed() b/c of descending order.
+		studentList.stream().sorted(Comparator.comparing(Student::getLastName).thenComparing(Student::getFirstName).reversed()).forEach(System.out::println);
+		  
 		// TASK 5
 		System.out.println("\nTask 5:\n");
-		System.out.println("Unique Student last names:");
-		studentList.stream().map(student -> student.getLastName()).distinct().sorted().forEach(System.out::println);//take lambda function
-		System.out.println();
+		System.out.println("Unique Student last names:"); 
 		
+		// distinct() removes the repeats.
+		studentList.stream().map(Student::getLastName).distinct().sorted().forEach(System.out::println); 
+		 
 	}
 
 }
