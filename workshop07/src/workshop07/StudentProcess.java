@@ -1,9 +1,11 @@
 package workshop07;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -71,7 +73,43 @@ public class StudentProcess {
 		
 		// distinct() removes the repeats.
 		studentList.stream().map(Student::getLastName).distinct().sorted().forEach(System.out::println); 
+		
+		// TASK 6
+		System.out.println("\nTask 6:\n");
+		System.out.println("Student names in order by last name then first name:"); 
+		
+		studentList.stream().sorted(Comparator.comparing(Student::getLastName).thenComparing(Student::getFirstName)).map(Student::getName).forEach(System.out::println);
+		
+		// TASK 7
+		System.out.println("\nTask 7:\n");
+		System.out.println("Students by department:"); 
+		
+		//Map<String, List<Student>> mapObject = studentList.stream().sorted(Comparator.comparing(Student::getDepartment).collect(Collectors.toMap(Student::getDepartment, Function.identity())));
 		 
+		Map<String, List<Student>> mapObject = studentList.stream().collect(Collectors.groupingBy(Student::getDepartment));
+		
+		System.out.println("Media");
+		mapObject.get("Media").forEach(System.out::println);
+		System.out.println("\nIT");
+		mapObject.get("IT").forEach(System.out::println);
+		System.out.println("\nBusiness");
+		mapObject.get("Business").forEach(System.out::println);
+		
+//		Iterator<String> it = mapObject.keySet().iterator();
+//		Iterator<List<Student>> itStudent = mapObject.values().iterator();
+//		
+//		while (it.hasNext() && itStudent.hasNext()) {
+//			System.out.println("\n" + it.next());
+//			itStudent.next().forEach(System.out::println);
+//		
+//		}
+		
+		// TASK 8
+		System.out.println("\nTask 8:\n");
+		System.out.println("Count of Students by department:"); 
+		
+		
+		
 	}
 
 }
