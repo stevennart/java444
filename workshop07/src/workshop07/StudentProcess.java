@@ -85,31 +85,16 @@ public class StudentProcess {
 		System.out.println("\nTask 7:\n");
 		System.out.println("Students by department:"); 
 		
-		//Map<String, List<Student>> mapObject = studentList.stream().sorted(Comparator.comparing(Student::getDepartment).collect(Collectors.toMap(Student::getDepartment, Function.identity())));
 		 
 		Map<String, List<Student>> mapObject = studentList.stream().collect(Collectors.groupingBy(Student::getDepartment));
 		
-//		System.out.println("Media");
-//		mapObject.get("Media").forEach(System.out::println);
-//		System.out.println("\nIT");
-//		mapObject.get("IT").forEach(System.out::println);
-//		System.out.println("\nBusiness");
-//		mapObject.get("Business").forEach(System.out::println);
-		
-//		Iterator<String> it = mapObject.keySet().iterator();
-//		Iterator<List<Student>> itStudent = mapObject.values().iterator();
-//		
-//		while (it.hasNext() && itStudent.hasNext()) {
-//			System.out.println("\n" + it.next());
-//			itStudent.next().forEach(System.out::println);
-//		
-//		}
-		//System.out.printf("tetetete\n");
+
 		mapObject.forEach((k, v) -> {
 			
+			// prints the key which is department name
 			System.out.println("\n" + k); 
-		
-		v.forEach(System.out::println);
+			// prints the list of each value for the respective key. 
+			v.forEach(System.out::println);
 		
 		});
 		
@@ -117,37 +102,14 @@ public class StudentProcess {
 		System.out.println("\nTask 8:\n");
 		System.out.println("Count of Students by department:"); 
 		
-		//Map<String, Long> m = studentList.stream().sorted(Comparator.comparing(Student::getDepartment).reversed()).collect(Collectors.groupingBy(Student::getDepartment, Collectors.counting()));
-		
-		Map<String, Long> m = studentList.stream().collect(Collectors.groupingBy(Student::getDepartment, Collectors.counting())); 
-		
-		
-		
-		//LinkedHashMap<String, Long> linkedM = new LinkedHashMap<>();
-		
-		//m.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(a -> linkedM.put(a.getKey(), a.getValue()));
-
-		
-		// By default, Collectors.toMap will returns a HashMap
-		         
-		  
-		//Iterator<String> it = m.keySet(). iterator();    
+		 
+		Map<String, Long> m = studentList.stream().collect(Collectors.groupingBy(Student::getDepartment, TreeMap::new, Collectors.counting())); 
+		//linkedhasmap works instead of treemap. 		 
+//		m.entrySet().stream().sorted(Map.Entry.comparingByKey()).
+//		collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new))
+		m.forEach((k, v) -> System.out.println(k + " has " + v + " Student(s)"));
 		
 		
-		
-//		while (it.hasNext()) {
-//			String deptName = it.next();
-//			System.out.println(deptName + " has " + m.get(it.next() + "Student(s)"));
-//			//itStudent.next().forEach(System.out::println);
-//	
-//		} 
-			
-		m.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new)).forEach((k, v) -> System.out.println(k + " has " + v + " Student(s)"));
-		
-		
-		//System.out.println(m.get("Media"));
-		//m.values();
-
 		
 		// TASK 9
 		System.out.println("\nTask 9:\n");
