@@ -71,6 +71,8 @@ public class SharedResource {
 
 		me.start();
 		friend.start();
+		
+		System.out.println("Done1111");
 	}
 }
 
@@ -158,7 +160,13 @@ class Friend extends Thread {
 			} catch (InterruptedException e) {
 				System.err.println(e.toString());
 			}
-			val = friendAccess.withdrawBalance();
+			
+			//for (Currency c: friendCurList) {
+				val = friendAccess.withdrawBalance();
+		//	}
+			
+			
+			
 		} while (val != friendCurList.size());       
 
 	}
@@ -167,7 +175,7 @@ class Friend extends Thread {
 /** Definition of a Container */
 class BankAccount {
 	private int balance = 0;
-	private boolean writeable = true; // condition variable
+	private boolean writeable = false; // condition variable
 	private String currencyInBalance = "";
 
 	public synchronized int getBalance() {
@@ -188,20 +196,22 @@ class BankAccount {
 			currencyInBalance = currencyType;
 		}
 
-		if (!currencyType.equals(currencyInBalance)) {
-			writeable = false;
-		}
+		
+//		if (!currencyType.equals(currencyInBalance)) {
+//			writeable = false;
+//		}
+		
 
-		if (balance == 0) {
-			writeable = true;
-		}
+//		while (this.balance > 0) {
+//			writeable = true;
+//		}
 
-		while (!writeable) { // not the producer's turn
+		while (!writeable) { // not the producer's turn 
 			try {
 				System.out.println("ME: Waiting for withdrawl...");
 				wait();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				e.printStackTrace(); 
 			}
 		}
 
@@ -210,7 +220,7 @@ class BankAccount {
 		balance += val;
 		//this.currencyInBalance = currencyType;
 		
-		System.out.println("Current balance: " + getBalance());
+		System.out.println("Current balance: " + this.balance);
 		
 		
 		writeable = false;
@@ -231,7 +241,7 @@ class BankAccount {
 
 		writeable = true;
 		notify(); // tell a waiting thread to become ready
-		System.err.println(Thread.currentThread().getName() + " withdraws 1 " + currencyInBalance + " from bank account");
+		System.err.println(Thread.currentThread().getName() + " withdraws 1 " + currencyInBalance + " from bank account\n"); 
 		balance -= 1;
 		return balance;
 	}
